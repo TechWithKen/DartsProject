@@ -2,7 +2,7 @@
 peform certain operations and build a fully functional calculator */
 
 import "dart:io";
-import "getinput.dart" as external;
+import "getinput.dart";
 
 void main(){
 
@@ -19,7 +19,7 @@ void main(){
         return a / b;
     }
     factorial(int a){
-        return external.getFactorial(a);
+        return getFactorial(a);
     }
     oneInput(){
         print("Enter the number: ");
@@ -34,11 +34,14 @@ void main(){
         var inSecondNumber = stdin.readLineSync();
         var fiFirstNumber = int.parse(inFirstNumber ?? "0");
         var fiSecondNumber = int.parse(inSecondNumber ?? "0");
-        return fiFirstNumber, fiSecondNumber;
+        return [fiFirstNumber, fiSecondNumber];
     }
     print("Enter the operation you would like to perform: 1: addition, 2: subtraction, 3: multiplication 4: Division, 5: Factorial");
     var operation = stdin.readLineSync();
 
-    if(operation):
+    if(operation == "1"){
+      var numbers = twoInput();
+      print("Result: ${numbers[0] + numbers[1]}");
+    }
     
 }
