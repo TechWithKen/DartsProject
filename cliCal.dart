@@ -34,12 +34,27 @@ twoInput(){
     var fiSecondNumber = int.parse(inSecondNumber ?? "0");
     return [fiFirstNumber, fiSecondNumber];
 }
+var numbersTwo = twoInput();
+var numbersOne = oneInput();
 void main(){
   print("Enter the operation you would like to perform: 1: addition, 2: subtraction, 3: multiplication 4: Division, 5: Factorial");
   var operation = stdin.readLineSync();
-
   if(operation == "1"){
-    var numbers = twoInput();
-    print(addition(numbers[0], numbers[1]));
+    print(addition(numbersTwo[0], numbersTwo[1]));
+  }
+  else if (operation == "2"){
+    print(subtraction(numbersTwo[0], numbersTwo[1]));
+  }
+  else if (operation == "3"){
+    print(multiplication(numbersTwo[0], numbersTwo[1]));
+  }
+  else if (operation == "4"){
+    print(division(numbersTwo[0], numbersTwo[1]));
+  }
+  else if (operation == "5"){
+    print(factorial(numbersOne));
+  }
+  else{
+    print("Invalid Input Operation");
   }
 }
