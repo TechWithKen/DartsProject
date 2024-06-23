@@ -14,7 +14,11 @@ multiplication(int a, int b){
     return "Result: ${a * b}";
 }
 division(int a, int b){
-    return "Result: ${a / b}";
+  if(b == 0){
+    return "Error: Division by zero";
+  }
+  return "Result: ${a / b}";
+
 }
 factorial(int a){
     return "Result: ${getFactorial(a)}";
