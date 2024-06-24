@@ -27,7 +27,7 @@ permutation(int a, int b){
   return "Result: ${factorial(a)/factorial(a-b)}";
 }
 combination(int a, int b){
-  return "Result "
+  return "Result: ${factorial(a)/(factorial(a-b)*factorial(b))}";
 }
 oneInput(){
     print("Enter the number: ");
@@ -47,7 +47,9 @@ twoInput(){
 var numbersTwo = twoInput();
 var numbersOne = oneInput();
 void main(){
-  print("Enter the operation you would like to perform: 1: addition, 2: subtraction, 3: multiplication 4: Division, 5: Factorial, 6: Permuatation");
+  print(
+  "Enter the operation you would like to perform: 1: addition, 2: subtraction, 3: multiplication 4: Division, 5: Factorial, 6: Permuatation, 7: Combination"
+  );
   var operation = stdin.readLineSync();
   if(operation == "1"){
     print(addition(numbersTwo[0], numbersTwo[1]));
@@ -62,10 +64,13 @@ void main(){
     print(division(numbersTwo[0], numbersTwo[1]));
   }
   else if (operation == "5"){
-    print(factorial(numbersOne));
+    print("Result: ${factorial(numbersOne)}");
   }
   else if(operation == "6"){
     print(permutation(numbersTwo[0], numbersTwo[1]));
+  }
+  else if(operation== "7"){
+    print(combination(numbersTwo[0], numbersTwo[1]));
   }
   else{
     print("Invalid Input Operation");
