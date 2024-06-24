@@ -46,6 +46,13 @@ createAccount(var accountNumber, double balance){
     "transactions": ["Initial Deposit \$${balance}"]
   };
 }
+
+deleteAccount(var accountNumber){
+  if (accounts.containsKey(accountNumber) == false){
+    print("This Account does not exist, Please check your input and try again");
+  }
+  accounts.remove(accountNumber);
+}
 void main(){
   createAccount(inputAccountNumber(), inputInitialBalance());
   createAccount(inputAccountNumber(), inputInitialBalance());
