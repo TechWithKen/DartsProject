@@ -12,3 +12,51 @@ where individual or users of the app can perform the following operations
 
 */
 
+import "dart:io";
+
+var todoList = {
+
+};
+
+addTask(String taskToAdd, Map<dynamic, dynamic> tasks){
+  tasks[taskToAdd] = "Uncompleted";
+}
+
+deleteTask(String taskToDelete, Map<dynamic, dynamic> tasks){
+  tasks.remove(taskToDelete);
+}
+
+completedTask(String taskCompleted, Map<dynamic, dynamic> tasks){
+  tasks[taskCompleted] = "Completed";
+}
+
+uncompletedTask(String taskUncompleted, Map<dynamic, dynamic> tasks){
+  tasks[taskUncompleted] = "Uncompleted";
+}
+
+viewTask(String taskToView, Map<dynamic, dynamic> tasks){
+  print(tasks[taskToView]);
+}
+
+viewAllTasks(Map<dynamic, dynamic> tasks){
+  print(tasks);
+}
+
+viewCompletedTasks(tasks){
+  for (var task in tasks){
+    if (tasks[task] == "Completed"){
+      return task;
+    }
+  }
+}
+
+viewUncompletedTasks(tasks){
+  for (var task in tasks){
+    if (tasks[task] == "Uncompleted"){
+      return task;
+    }
+  }
+}
+void main(){
+  print(todoList);
+}
