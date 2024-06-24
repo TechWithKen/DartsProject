@@ -15,7 +15,8 @@ a basic banking application, where user's of the bank can perform the following 
     'transactions': ['Initial deposit: \$1000']
   }
 }
-
+var accountNumber = inputAccountNumber();
+  var balance = inputInitialBalance();
 
 */
 
@@ -36,7 +37,10 @@ inputInitialBalance(){
   return Balance;
 }
 
-void createAccount(var accountNumber, double balance){
+createAccount(var accountNumber, double balance){
+  if (accounts.containsKey(accountNumber) == true){
+    print("This account already exists, please check the details and try again");
+  }
   accounts[accountNumber] = {
     "balance": balance,
     "transactions": ["Initial Deposit \$${balance}"]
