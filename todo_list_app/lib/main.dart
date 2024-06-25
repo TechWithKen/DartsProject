@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(TodoListApp());
+  runApp(const TodoListApp());
 }
 
 class TodoListApp extends StatelessWidget {
+  const TodoListApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,12 +14,14 @@ class TodoListApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TodoListScreen(),
+      home: const TodoListScreen(),
     );
   }
 }
 
 class TodoListScreen extends StatefulWidget {
+  const TodoListScreen({super.key});
+
   @override
   _TodoListScreenState createState() => _TodoListScreenState();
 }
@@ -55,7 +59,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('To-Do List'),
+        title: const Text('To-Do List'),
       ),
       body: Column(
         children: [
@@ -63,7 +67,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: taskController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Enter a task',
               ),
@@ -74,7 +78,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
               addTask(taskController.text);
               taskController.clear();
             },
-            child: Text('Add Task'),
+            child: const Text('Add Task'),
           ),
           Expanded(
             child: ListView(
@@ -86,19 +90,19 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                         onPressed: () {
                           markTaskAsCompleted(entry.key);
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.undo),
+                        icon: const Icon(Icons.undo),
                         onPressed: () {
                           markTaskAsUncompleted(entry.key);
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         onPressed: () {
                           deleteTask(entry.key);
                         },
