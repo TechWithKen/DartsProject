@@ -37,6 +37,13 @@ inputInitialBalance() {
   return Balance;
 }
 
+collectMoney() {
+  print("Enter the amount: ");
+  String? depositAmount = stdin.readLineSync();
+  double? Amount = double.tryParse(depositAmount ?? '0');
+  return Amount;
+}
+
 setPin() {
   print("Enter the PIN you would like to use: ");
   String? initialPin = stdin.readLineSync();
@@ -62,8 +69,39 @@ deleteAccount(var accountNumber) {
   accounts.remove(accountNumber);
 }
 
+depositMoney() {
+  var accountToDeposit = inputAccountNumber();
+  var amountToDeposit = collectMoney();
+  if (accounts.containsKey(accountToDeposit) == false) {
+    print("This Account does not exist, Please check your input and try again");
+  }
+  var account = accounts[accountToDeposit];
+  if (account != null) {
+    account["balance"] = (account["balance"] ?? "0") + amountToDeposit;
+    account["transactions"].add("Deposited \$$amountToDeposit");
+    return "Amount of $amountToDeposit Deposited Successfully, check account balance";
+  } else {
+    return "You cannot deposit money into this account, please check and try again";
+  }
+}
+
+checkAccountDetails() {
+  var accountNumber = inputAccountNumber();
+  if (accounts.containsKey(accountNumber) == false) {
+    print("This Account does not exist, Please check your input and try again");
+  }
+  var account = accounts[accountNumber];
+  if (account != null) {
+    print(account);
+  } else {
+    print("This account does not exist, Please Check network and try again");
+  }
+}
+
 void main() {
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
-  print(accounts);
+  depositMoney();
+  depositMoney();
+  checkAccountDetails();
 }
