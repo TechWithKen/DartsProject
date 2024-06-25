@@ -50,6 +50,12 @@ setPin() {
   return initialPin;
 }
 
+enterPin() {
+  print("Enter Your PIN: ");
+  String? userPin = stdin.readLineSync();
+  return userPin;
+}
+
 createAccount(var accountNumber, double balance, String userPin) {
   if (accounts.containsKey(accountNumber) == true) {
     print(
@@ -58,7 +64,7 @@ createAccount(var accountNumber, double balance, String userPin) {
   accounts[accountNumber] = {
     "balance": balance,
     "transactions": ["Initial Deposit \$${balance}"],
-    "pin": "*" * userPin.length
+    "pin": userPin
   };
 }
 
@@ -85,6 +91,32 @@ depositMoney() {
   }
 }
 
+withdrawMoney() {
+  
+  var accountToWithdraw = inputAccountNumber();
+  var amountToWithdraw = collectMoney();
+  var accountPin = enterPin();
+  if (accounts.containsKey(accountToWithdraw) == false) {
+    print("This Account does not exist, Please check your input and try again");
+  }
+  var account = accounts[accountToWithdraw];
+  if (account != null) {
+    if (accountPin != (account["pin"] ?? "0")) {
+      return "Incorrect pin Entered, please check the pin and try again later";
+    } else {
+      if (account["balance"] >= amountToWithdraw) {
+        account["balance"] = (account["balance"] ?? "0") - amountToWithdraw;
+        account["transactions"].add("Withdrawn \$$amountToWithdraw");
+        return "Amount of $amountToWithdraw Withdrawn Successfully, check account balance";
+      } else {
+        return "You cannot withdraw more than your balance, please check and try again";
+      }
+    }
+  } else {
+    return "You cannot withdraw money into this account, please check and try again";
+  }
+}
+
 checkAccountDetails() {
   var accountNumber = inputAccountNumber();
   if (accounts.containsKey(accountNumber) == false) {
@@ -100,8 +132,7 @@ checkAccountDetails() {
 
 void main() {
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
-  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
   depositMoney();
-  depositMoney();
+  withdrawMoney();
   checkAccountDetails();
 }
