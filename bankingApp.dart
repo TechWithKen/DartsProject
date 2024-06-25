@@ -166,6 +166,12 @@ checkAccountDetails() {
   }
 }
 
+viewAllAccounts(){
+  accounts.forEach((key, value) {
+    print("$key details $value");
+  });
+}
+
 void main() {
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
