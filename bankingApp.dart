@@ -20,143 +20,136 @@ var accountNumber = inputAccountNumber();
 
 */
 
-import "dart:io";
+import 'dart:io';
 
 Map<String, Map<String, dynamic>> accounts = {};
 
-inputAccountNumber() {
+String inputAccountNumber() {
   print("Enter account number: ");
   var accountNumber = stdin.readLineSync();
-  return accountNumber;
+  return accountNumber ?? '';
 }
 
-inputInitialBalance() {
-  print("Enter the Initial Balance in the account.");
-  String? initialBalance = stdin.readLineSync();
-  double? Balance = double.tryParse(initialBalance ?? '0');
-  return Balance;
+double inputInitialBalance() {
+  print("Enter the Initial Balance in the account: ");
+  var initialBalance = stdin.readLineSync();
+  return double.tryParse(initialBalance ?? '0') ?? 0.0;
 }
 
-collectMoney() {
+double collectMoney() {
   print("Enter the amount: ");
-  String? depositAmount = stdin.readLineSync();
-  double? Amount = double.tryParse(depositAmount ?? '0');
-  return Amount;
+  var depositAmount = stdin.readLineSync();
+  return double.tryParse(depositAmount ?? '0') ?? 0.0;
 }
 
-setPin() {
+String setPin() {
   print("Enter the PIN you would like to use: ");
-  String? initialPin = stdin.readLineSync();
-  return initialPin;
+  var initialPin = stdin.readLineSync();
+  return initialPin ?? '';
 }
 
-enterPin() {
+String enterPin() {
   print("Enter Your PIN: ");
-  String? userPin = stdin.readLineSync();
-  return userPin;
+  var userPin = stdin.readLineSync();
+  return userPin ?? '';
 }
 
-createAccount(var accountNumber, double balance, String userPin) {
-  if (accounts.containsKey(accountNumber) == true) {
-    print(
-        "This account already exists, please check the details and try again");
+void createAccount(String accountNumber, double balance, String userPin) {
+  if (accounts.containsKey(accountNumber)) {
+    print("This account already exists, please check the details and try again");
+    return;
   }
   accounts[accountNumber] = {
     "balance": balance,
     "transactions": ["Initial Deposit \$${balance}"],
     "pin": userPin
   };
+  print("Account created successfully.");
 }
 
-deleteAccount(var accountNumber) {
-  if (accounts.containsKey(accountNumber) == false) {
+void deleteAccount(String accountNumber) {
+  if (!accounts.containsKey(accountNumber)) {
     print("This Account does not exist, Please check your input and try again");
+    return;
   }
   accounts.remove(accountNumber);
+  print("Account deleted successfully.");
 }
 
-depositMoney() {
+void depositMoney() {
   var accountToDeposit = inputAccountNumber();
   var amountToDeposit = collectMoney();
-  if (accounts.containsKey(accountToDeposit) == false) {
+  if (!accounts.containsKey(accountToDeposit)) {
     print("This Account does not exist, Please check your input and try again");
+    return;
   }
   var account = accounts[accountToDeposit];
   if (account != null) {
-    account["balance"] = (account["balance"] ?? "0") + amountToDeposit;
+    account["balance"] += amountToDeposit;
     account["transactions"].add("Deposited \$$amountToDeposit");
-    return "Amount of $amountToDeposit Deposited Successfully, check account balance";
-  } else {
-    return "You cannot deposit money into this account, please check and try again";
+    print("Amount of $amountToDeposit Deposited Successfully, check account balance");
   }
 }
 
-withdrawMoney() {
+void withdrawMoney() {
   var accountToWithdraw = inputAccountNumber();
   var amountToWithdraw = collectMoney();
   var accountPin = enterPin();
-  if (accounts.containsKey(accountToWithdraw) == false) {
+  if (!accounts.containsKey(accountToWithdraw)) {
     print("This Account does not exist, Please check your input and try again");
+    return;
   }
   var account = accounts[accountToWithdraw];
   if (account != null) {
-    if (accountPin != (account["pin"] ?? "0")) {
+    if (accountPin != account["pin"]) {
       print("Incorrect pin Entered, please check the pin and try again later");
-      //return "Incorrect pin Entered, please check the pin and try again later";
-    } else {
-      if (account["balance"] >= amountToWithdraw) {
-        account["balance"] = (account["balance"] ?? "0") - amountToWithdraw;
-        account["transactions"].add("Withdrawn \$$amountToWithdraw");
-        return "Amount of $amountToWithdraw Withdrawn Successfully, check account balance";
-      } else {
-        return "You cannot withdraw more than your balance, please check and try again";
-      }
+      return;
     }
-  } else {
-    return "You cannot withdraw money into this account, please check and try again";
+    if (account["balance"] >= amountToWithdraw) {
+      account["balance"] -= amountToWithdraw;
+      account["transactions"].add("Withdrawn \$$amountToWithdraw");
+      print("Amount of $amountToWithdraw Withdrawn Successfully, check account balance");
+    } else {
+      print("You cannot withdraw more than your balance, please check and try again");
+    }
   }
 }
 
-transferMoney() {
+void transferMoney() {
   var accountFrom = inputAccountNumber();
   var accountTo = inputAccountNumber();
   var amountToTransfer = collectMoney();
   var accountPin = enterPin();
 
-  if (accounts.containsKey(accountFrom) == false ||
-      accounts.containsKey(accountTo) == false) {
+  if (!accounts.containsKey(accountFrom) || !accounts.containsKey(accountTo)) {
     print("This Account does not exist, Please check your input and try again");
+    return;
   }
   var fromAccount = accounts[accountFrom];
   var toAccount = accounts[accountTo];
 
   if (fromAccount != null && toAccount != null) {
-    var accountFromTransaction = (fromAccount["transactions"] ?? "0");
-    var accountToTransaction = (toAccount["transactions"] ?? "0");
-    var accountFromPin = (fromAccount["pin"] ?? "0");
-    if (accountPin != accountFromPin) {
+    if (accountPin != fromAccount["pin"]) {
       print("Incorrect Pin Entered, please check your Pin and try again");
-    } else {
-      if (fromAccount["balance"] >= amountToTransfer) {
-        fromAccount["balance"] -= amountToTransfer;
-        toAccount["balance"] += amountToTransfer;
-        accountFromTransaction.add("Transferred \$$amountToTransfer");
-        accountToTransaction.add("Received \$$amountToTransfer");
-      } else {
-        print(
-            "You cannot transfer more than your balance, please check and try again");
-      }
+      return;
     }
-  } else {
-    print(
-        "You cannot transfer money into this account, please check and try again");
+    if (fromAccount["balance"] >= amountToTransfer) {
+      fromAccount["balance"] -= amountToTransfer;
+      toAccount["balance"] += amountToTransfer;
+      fromAccount["transactions"].add("Transferred \$$amountToTransfer");
+      toAccount["transactions"].add("Received \$$amountToTransfer");
+      print("Amount of $amountToTransfer transferred successfully");
+    } else {
+      print("You cannot transfer more than your balance, please check and try again");
+    }
   }
 }
 
-checkAccountDetails() {
+void checkAccountDetails() {
   var accountNumber = inputAccountNumber();
-  if (accounts.containsKey(accountNumber) == false) {
+  if (!accounts.containsKey(accountNumber)) {
     print("This Account does not exist, Please check your input and try again");
+    return;
   }
   var account = accounts[accountNumber];
   if (account != null) {
@@ -166,18 +159,53 @@ checkAccountDetails() {
   }
 }
 
-viewAllAccounts(){
+void viewAllAccounts() {
   accounts.forEach((key, value) {
-    print("$key details $value");
+    print("$key details: $value");
   });
 }
 
 void main() {
-  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
-  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
-  depositMoney();
-  depositMoney();
-  transferMoney();
-  checkAccountDetails();
-  checkAccountDetails();
+  while (true) {
+    print("\nBanking System Menu:");
+    print("1. Create a new account");
+    print("2. Delete an account");
+    print("3. Deposit money");
+    print("4. Withdraw money");
+    print("5. Transfer money");
+    print("6. View account details");
+    print("7. List all accounts");
+    print("8. Exit");
+
+    print("Please select an option: ");
+    var choice = stdin.readLineSync();
+
+    switch (choice) {
+      case '1':
+        createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
+        break;
+      case '2':
+        deleteAccount(inputAccountNumber());
+        break;
+      case '3':
+        depositMoney();
+        break;
+      case '4':
+        withdrawMoney();
+        break;
+      case '5':
+        transferMoney();
+        break;
+      case '6':
+        checkAccountDetails();
+        break;
+      case '7':
+        viewAllAccounts();
+        break;
+      case '8':
+        exit(0);
+      default:
+        print("Invalid choice, please select a valid option.");
+    }
+  }
 }
