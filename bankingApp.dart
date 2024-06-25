@@ -24,37 +24,46 @@ import "dart:io";
 
 Map<String, Map<String, dynamic>> accounts = {};
 
-inputAccountNumber(){
+inputAccountNumber() {
   print("Enter account number: ");
   var accountNumber = stdin.readLineSync();
   return accountNumber;
 }
 
-inputInitialBalance(){
+inputInitialBalance() {
   print("Enter the Initial Balance in the account.");
   String? initialBalance = stdin.readLineSync();
-  double? Balance = double.tryParse(initialBalance?? '0');
+  double? Balance = double.tryParse(initialBalance ?? '0');
   return Balance;
 }
 
-createAccount(var accountNumber, double balance){
-  if (accounts.containsKey(accountNumber) == true){
-    print("This account already exists, please check the details and try again");
+setPin() {
+  print("Enter the PIN you would like to use: ");
+  String? initialPin = stdin.readLineSync();
+  return initialPin;
+}
+
+createAccount(var accountNumber, double balance, String userPin) {
+  if (accounts.containsKey(accountNumber) == true) {
+    print(
+        "This account already exists, please check the details and try again");
   }
   accounts[accountNumber] = {
     "balance": balance,
-    "transactions": ["Initial Deposit \$${balance}"]
+    "transactions": ["Initial Deposit \$${balance}"],
+    "pin": "*" * userPin.length
   };
 }
 
-deleteAccount(var accountNumber){
-  if (accounts.containsKey(accountNumber) == false){
+deleteAccount(var accountNumber) {
+  if (accounts.containsKey(accountNumber) == false) {
     print("This Account does not exist, Please check your input and try again");
   }
   accounts.remove(accountNumber);
 }
-void main(){
-  createAccount(inputAccountNumber(), inputInitialBalance());
-  createAccount(inputAccountNumber(), inputInitialBalance());
+
+void main() {
+  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
+  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
   print(accounts);
 }
