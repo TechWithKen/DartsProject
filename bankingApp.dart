@@ -92,7 +92,6 @@ depositMoney() {
 }
 
 withdrawMoney() {
-  
   var accountToWithdraw = inputAccountNumber();
   var amountToWithdraw = collectMoney();
   var accountPin = enterPin();
@@ -102,7 +101,8 @@ withdrawMoney() {
   var account = accounts[accountToWithdraw];
   if (account != null) {
     if (accountPin != (account["pin"] ?? "0")) {
-      return "Incorrect pin Entered, please check the pin and try again later";
+      print("Incorrect pin Entered, please check the pin and try again later");
+      //return "Incorrect pin Entered, please check the pin and try again later";
     } else {
       if (account["balance"] >= amountToWithdraw) {
         account["balance"] = (account["balance"] ?? "0") - amountToWithdraw;
@@ -114,6 +114,42 @@ withdrawMoney() {
     }
   } else {
     return "You cannot withdraw money into this account, please check and try again";
+  }
+}
+
+transferMoney() {
+  var accountFrom = inputAccountNumber();
+  var accountTo = inputAccountNumber();
+  var amountToTransfer = collectMoney();
+  var accountPin = enterPin();
+
+  if (accounts.containsKey(accountFrom) == false ||
+      accounts.containsKey(accountTo) == false) {
+    print("This Account does not exist, Please check your input and try again");
+  }
+  var fromAccount = accounts[accountFrom];
+  var toAccount = accounts[accountTo];
+
+  if (fromAccount != null && toAccount != null) {
+    var accountFromTransaction = (fromAccount["transactions"] ?? "0");
+    var accountToTransaction = (toAccount["transactions"] ?? "0");
+    var accountFromPin = (fromAccount["pin"] ?? "0");
+    if (accountPin != accountFromPin) {
+      print("Incorrect Pin Entered, please check your Pin and try again");
+    } else {
+      if (fromAccount["balance"] >= amountToTransfer) {
+        fromAccount["balance"] -= amountToTransfer;
+        toAccount["balance"] += amountToTransfer;
+        accountFromTransaction.add("Transferred \$$amountToTransfer");
+        accountToTransaction.add("Received \$$amountToTransfer");
+      } else {
+        print(
+            "You cannot transfer more than your balance, please check and try again");
+      }
+    }
+  } else {
+    print(
+        "You cannot transfer money into this account, please check and try again");
   }
 }
 
@@ -132,7 +168,10 @@ checkAccountDetails() {
 
 void main() {
   createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
+  createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
   depositMoney();
-  withdrawMoney();
+  depositMoney();
+  transferMoney();
+  checkAccountDetails();
   checkAccountDetails();
 }
