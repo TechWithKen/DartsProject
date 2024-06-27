@@ -9,10 +9,7 @@ mode: none
 import "dart:io";
 
 class Statistics {
-  List<int> dataValues = [2, 3, 4, 5, 6];
-
-  List<int> exchangeSort(data) {
-    List<int> data = this.dataValues;
+  List<int> exchangeSort(List<int> data) {
     for (int i = 0; i <= data.length - 1; i++) {
       for (int j = 0; j <= data.length - 1; j++) {
         if (data[i] > data[j]) {
@@ -25,8 +22,7 @@ class Statistics {
     return data;
   }
 
-  double mean(data) {
-    List<int> data = this.dataValues;
+  double mean(List<int> data) {
     int sum = 0;
     for (int i = 0; i <= data.length - 1; i++) {
       sum += data[i];
@@ -34,16 +30,40 @@ class Statistics {
     return sum / data.length;
   }
 
-  double median(data) {
-    List<int> data = this.dataValues;
+  double median(List<int> data) {
     List<int> sortedData = exchangeSort(data);
     int howManyNums = sortedData.length;
     if (howManyNums % 2 == 0) {
       int middleNum = howManyNums ~/ 2;
-      return (sortedData[middleNum] +
-              sortedData[middleNum + 1]) / 2;
-    }else{
+      return (sortedData[middleNum] + sortedData[middleNum + 1]) / 2;
+    } else {
       return sortedData[(howManyNums ~/ 2) + 1].toDouble();
     }
   }
+
+  int? mode(List<int> data) {
+    Map<int, int> dataValues = {};
+    for (int i = 0; i <= data.length - 1; i++) {
+      dataValues[data[i]] =
+          dataValues.containsKey(data[i]) ? dataValues[data[i]]! + 1 : 1;
+    }
+    int? maxNumber;
+    int maxCount = 0;
+
+    for (int key in dataValues.keys) {
+      if (dataValues[key]! > maxCount) {
+        maxNumber = key;
+        maxCount = dataValues[key]!;
+      }
+    }
+    return maxNumber;
+  }
+}
+
+void main() {
+  List<int> data = [2, 3, 4, 5, 6];
+  Statistics Stats = Statistics();
+  print(Stats.mean(data));
+  print(Stats.median(data));
+  print(Stats.mode(data));
 }
