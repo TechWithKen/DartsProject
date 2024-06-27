@@ -12,7 +12,7 @@ class Statistics {
   List<int> exchangeSort(List<int> data) {
     for (int i = 0; i <= data.length - 1; i++) {
       for (int j = 0; j <= data.length - 1; j++) {
-        if (data[i] > data[j]) {
+        if (data[i] < data[j]) {
           int temp = data[i];
           data[i] = data[j];
           data[j] = temp;
@@ -42,6 +42,7 @@ class Statistics {
   }
 
   int? mode(List<int> data) {
+    //The list to serve as the parameter must be sorted
     Map<int, int> dataValues = {};
     for (int i = 0; i <= data.length - 1; i++) {
       dataValues[data[i]] =
@@ -58,12 +59,21 @@ class Statistics {
     }
     return maxNumber;
   }
+
+  int range(List<int> data) {
+    //The list to serve as the parameter must be sorted
+    data = exchangeSort(data);
+    int min = data[0];
+    int max = data[data.length - 1];
+    return max - min;
+  }
 }
 
 void main() {
-  List<int> data = [2, 3, 4, 5, 6];
+  List<int> data = [2, 3, 4, 5, 6, 6, 5, 5];
   Statistics Stats = Statistics();
   print(Stats.mean(data));
   print(Stats.median(data));
   print(Stats.mode(data));
+  print(Stats.range(data));
 }
