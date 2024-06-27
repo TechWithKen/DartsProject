@@ -5,9 +5,6 @@ mean: 4.0
 median: 4.0
 mode: none
 */
-
-import "dart:io";
-
 class Statistics {
   List<int> exchangeSort(List<int> data) {
     for (int i = 0; i <= data.length - 1; i++) {
