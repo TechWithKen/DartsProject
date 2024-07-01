@@ -21,14 +21,32 @@ var accountNumber = inputAccountNumber();
 */
 
 import 'dart:io';
+import 'dart:math';
 
 Map<String, Map<String, dynamic>> accounts = {};
 
+Random random = new Random();
+
+String generateRandomAccountNumber() {
+  String number = '123456789';
+  String accNumber = '';
+
+  for (var i = 0; i < 5; i++) {
+    int randomize = random.nextInt(10) + 2 * number.length;
+    accNumber += randomize.toString();
+    // return accNumber;
+  }
+  print('Account Number generated successfully: $accNumber ');
+  return accNumber;
+}
 
 String inputAccountNumber() {
   print("Enter account number: ");
   var accountNumber = stdin.readLineSync();
-  return accountNumber ?? '';
+  return accountNumber!;
+
+  // you can set accoutNumber = accNumber to use generated account number
+  // return accountNumber = generateRandomAccountNumber();
 }
 
 double inputInitialBalance() {
@@ -57,7 +75,8 @@ String enterPin() {
 
 void createAccount(String accountNumber, double balance, String userPin) {
   if (accounts.containsKey(accountNumber)) {
-    print("This account already exists, please check the details and try again");
+    print(
+        "This account already exists, please check the details and try again");
     return;
   }
   accounts[accountNumber] = {
@@ -67,7 +86,6 @@ void createAccount(String accountNumber, double balance, String userPin) {
   };
   print("Account created successfully.");
 }
-
 
 void deleteAccount(String accountNumber) {
   if (!accounts.containsKey(accountNumber)) {
@@ -89,7 +107,8 @@ void depositMoney() {
   if (account != null) {
     account["balance"] += amountToDeposit;
     account["transactions"].add("Deposited \$$amountToDeposit");
-    print("Amount of $amountToDeposit Deposited Successfully, check account balance");
+    print(
+        "Amount of $amountToDeposit Deposited Successfully, check account balance");
   }
 }
 
@@ -110,9 +129,11 @@ void withdrawMoney() {
     if (account["balance"] >= amountToWithdraw) {
       account["balance"] -= amountToWithdraw;
       account["transactions"].add("Withdrawn \$$amountToWithdraw");
-      print("Amount of $amountToWithdraw Withdrawn Successfully, check account balance");
+      print(
+          "Amount of $amountToWithdraw Withdrawn Successfully, check account balance");
     } else {
-      print("You cannot withdraw more than your balance, please check and try again");
+      print(
+          "You cannot withdraw more than your balance, please check and try again");
     }
   }
 }
@@ -142,7 +163,8 @@ void transferMoney() {
       toAccount["transactions"].add("Received \$$amountToTransfer");
       print("Amount of $amountToTransfer transferred successfully");
     } else {
-      print("You cannot transfer more than your balance, please check and try again");
+      print(
+          "You cannot transfer more than your balance, please check and try again");
     }
   }
 }
@@ -184,6 +206,7 @@ void main() {
 
     switch (choice) {
       case '1':
+        generateRandomAccountNumber();
         createAccount(inputAccountNumber(), inputInitialBalance(), setPin());
         break;
       case '2':
