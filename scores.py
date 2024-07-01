@@ -1,27 +1,52 @@
-English = int(input("enter your score in english over 100 :"))
-Maths = int(input("enter your score in maths over 100 :"))
-Biology = int(input("enter your score in biology over 100 :"))
-Chemistry = int(input("enter your score in chemistry over 100 :"))
-Civic = int(input("enter your score in civic over 100 :")) 
-IT =int(input("enter your score in IT over 100 :"))
-DP = int(input("enter your score in DP over 100 :"))
-Economics = int(input("enter your score in economics over 100 :"))
-Psychology = int(input("enter your score in psychology over 100 :"))
-Technical_drawing = int(input("enter your score in technical drawing over 100 :"))
-Position = int((English + Maths + Biology + Chemistry + Civic + IT + DP + Economics + Psychology + Technical_drawing)/10) 
-print(Position)
+user_input = input(" select your card type .... 1) regular, 2) silver, 3)gold, 4) platinum: ") 
 
-if Position < 0 or Position > 100:
-    print("Invalid input entered please check and try again ")
-elif Position >= 70:
-    print("your grade is A") 
-elif Position <=59 : 
-    print("your grade is C...try working more hard next time") 
-elif Position <=49 :
-    print("your grade is D...you can do better than this next time") 
-elif Position <=39 : 
-    print("your grade is E...this is a very low grade, please work more hard next time") 
-elif Position <=30 : 
-    print("your grade is F... There's no hope for you again") 
-else:
-    print(" the Lord is your strength") 
+user_card = "R"  #default value for the user card type
+
+if user_input == "2":
+    user_card = "S"
+elif user_input == "3":
+    user_card = "G"
+elif user_input == "4":
+    user_card = "P"
+
+total_cost = int(input("enter the total cost of what you bought: "))
+#logic for how much user is going to pay
+discount = 0
+if user_card == "R":
+	if total_cost > 2000:
+	discount = 10
+	elif total_cost > 1000:
+		discount = 5
+	else:
+		discount = discount
+
+elif user_card == "S":
+	discount = 5
+	if total_cost > 2000:
+		discount = discount + 10
+	elif total_cost > 1000:
+		discount = discount + 5
+	else:
+		discount = discount
+
+elif user_card == "G":
+	discount = 10
+	if total_cost > 2000:
+		discount = discount + 10
+	elif total_cost > 1000:
+		discount = discount + 5
+	else:
+		discount = discount
+
+
+elif user_card == "P":
+	discount = 15
+	if total_cost > 2000:
+		discount = discount + 10
+	elif total_cost > 1000:
+		discount = discount + 5
+	else:
+		discount = discount
+
+amount_user_would_pay = total_cost - (discount / 100)
+print(amount_user_would_pay)
